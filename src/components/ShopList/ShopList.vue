@@ -111,10 +111,10 @@ export default {
               width 100%
               .shop_title
                 float left
-                width 140px
+                width 220px
                 color #333
-                font-size 16px
-                line-height 16px
+                font-size 14px
+                line-height 14px
                 font-weight 700
                 &::before
                   content '品牌'
