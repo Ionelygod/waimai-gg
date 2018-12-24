@@ -1,18 +1,22 @@
 <template>
   <section class="profile">
     <nav-header title="我的" />
-    <section class="profile-number" @click="$router.push('/login')">
+    <section class="profile-number" @click="$router.push(user._id ? '/userinfo': '/login')">
       <a href="javascript:" class="profile-link">
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
         </div>
         <div class="user-info">
-          <p class="user-info-top">登录/注册</p>
+          <p class="user-info-top">
+            {{user && user.name ? user.name : '登录/注册'}}
+          </p>
           <p>
                 <span class="user-icon">
                   <i class="iconfont icon-shouji icon-mobile"></i>
                 </span>
-            <span class="icon-mobile-number">暂无绑定手机号</span>
+            <span class="icon-mobile-number">
+              {{user && user.phone ? user.phone : '暂无绑定手机号'}}
+            </span>
           </p>
         </div>
         <span class="arrow">
@@ -88,10 +92,29 @@
         </div>
       </a>
     </section>
+    <section class="profile_my_order border-1px">
+      <!-- 退出登录 -->
+      <mt-button v-show="user._id" type="danger" style="width: 100%" @click="logout">退出登录</mt-button>
+    </section>
   </section>
 </template>
 <script>
-export default {}
+  import {mapState} from 'vuex'
+  import {MessageBox} from 'mint-ui'
+export default {
+  computed:{
+    ...mapState(['user'])
+  },
+  methods:{
+    logout(){
+      MessageBox.confirm('确定退出登录?').then(action => {
+        this.$store.dispatch('logout')
+      }).catch(action => {
+        console.log('++++',action);
+      })
+    }
+  }
+}
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @import "../../common/stylus/mixins.styl"

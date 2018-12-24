@@ -18,7 +18,7 @@
               </button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码">
+              <input type="tel" maxlength="8" placeholder="验证码" v-model="code">
             </section>
             <section class="login_hint">
               温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -28,10 +28,10 @@
           <div :class="{on:!loginWay}">
             <section>
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input type="tel" placeholder="用户名" v-model="name" >
               </section>
               <section class="login_verification">
-                <input :type="isShowPwd ? 'password' : 'text'" maxlength="8" placeholder="密码">
+                <input :type="isShowPwd ? 'password' : 'text'" maxlength="8" placeholder="密码" v-model="pwd">
                 <div class="switch_button" :class="isShowPwd ? 'on':'off'" @click="isShowPwd = !isShowPwd">
                   <div class="switch_circle" :class="{right:isShowPwd}"></div>
                   <span class="switch_text">
@@ -40,12 +40,12 @@
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
+                <input type="text" placeholder="验证码" v-model="captcha" >
                 <img ref="image" class="get_verification" src="http://localhost:5000/captcha" alt="captcha" @click="test1">
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" @click.prevent="loginin">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -62,9 +62,13 @@
     data(){
       return {
         loginWay:true,
-        phone : '',
         computeTime : 0,
         isShowPwd: false,
+        phone : '',
+        pwd: '',
+        name:'',
+        captcha : '',
+        code : ''
       }
     },
     computed:{
@@ -83,7 +87,6 @@
         },1000)
 
        const result = await reqSengCode(this.phone)
-        console.log(result);
         if(result.code === 0){
           return Toast('短信发送成功');
         }else{
@@ -94,6 +97,37 @@
       },
       test1() {
         this.$refs.image.src = 'http://localhost:5000/captcha?time= '+ Date.now()
+      },
+      async loginin() {
+        const {phone, code, pwd, name, captcha,  loginWay} = this
+        console.log(phone, code, pwd, name, captcha);
+        let propmise = null
+        if(loginWay){
+          if(!this.isRightPhone){
+            return MessageBox.alert('请输入正确的手机号');
+          }else if(!code){
+            return MessageBox.alert('请输入6位数字的验证码');
+          }else{
+            propmise = await reqSmsLogin(phone,code)
+          }
+        }else{
+          if(!name){
+            return MessageBox.alert('请输入用户名');
+          }else if(!pwd){
+            return MessageBox.alert('请输入密码');
+          }else if(captcha.length != 4){
+            return MessageBox.alert('您的验证码有误');
+          }else {
+            propmise = await reqPwdLogin({name, pwd, captcha})
+          }
+        }
+        if(propmise.code === 0){
+          console.log(propmise);
+          this.$store.dispatch('getUserInfo',propmise.data)
+          this.$router.replace('/profile')
+        }else{
+          return MessageBox.alert(propmise.msg, '错误');
+        }
       }
     },
 

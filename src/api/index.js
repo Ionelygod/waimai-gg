@@ -21,11 +21,10 @@ export const reqPwdLogin = ({name, pwd, captcha}) => ajax(prefix + '/login_pwd',
 // [7、发送短信验证码](#7发送短信验证码)<br/>
 export const reqSengCode = phone => ajax(prefix + '/sendcode',{phone})
 // [8、手机号验证码登陆](#8手机号验证码登陆)<br/>
-export const reqSmsLogin =  (phone, code) => ajax(prefix  + 'login_sms', {phone, code})
+export const reqSmsLogin =  (phone, code) => ajax(prefix  + 'login_sms', {phone, code},'POST')
 // [9、根据会话获取用户信息](#9根据会话获取用户信息)<br/>
-
+export const getUserInFo = () => ajax(prefix + '/userinfo')
 // [10、用户登出](#10用户登出)<br/>
-
-
+export const reqlogout = () => ajax(prefix + '/logout')
 
 

@@ -5,13 +5,16 @@
 import {
   reqAdderess,
   reqCategorys,
-  reqShopLists
+  reqShopLists,
+  reqlogout,
+  getUserInFo
 } from '../api'
 import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
-  RECEIVE_USER_INFO
+  RECEIVE_USER_INFO,
+  RECEIVE_RESET_INFO
 } from './mutation-types'
 
 export default {
@@ -32,5 +35,20 @@ export default {
     const shops = data
     commit(RECEIVE_SHOPS,{shops})
   },
+  async getUserInfo({commit},data){  //获取用户信息
+    const user = data
+    commit(RECEIVE_USER_INFO,{user})
+  },
+  async getUser({commit}){  //获取用户信息
+    const result = await getUserInFo()
+    if(result.code === 0){
+      const user = result.data
+      commit(RECEIVE_USER_INFO,{user})
+    }
 
+  },
+  logout({commit}){  //获取店铺信息
+    reqlogout()
+    commit(RECEIVE_RESET_INFO)
+  },
 }

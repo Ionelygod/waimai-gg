@@ -7,5 +7,5 @@ export default {
   address: {},
   categorys: [],
   shops: [],
-  userInfo: {}, // 用户信息
+  user: {}, // 用户信息
 }
