@@ -39,6 +39,10 @@
                   </span>
                 </div>
               </section>
+              <section class="login_message">
+                <input type="text" maxlength="11" placeholder="验证码">
+                <img ref="image" class="get_verification" src="http://localhost:5000/captcha" alt="captcha" @click="test1">
+              </section>
             </section>
           </div>
           <button class="login_submit">登录</button>
@@ -52,6 +56,8 @@
   </section>
 </template>
 <script>
+  import { Toast , MessageBox } from 'mint-ui';
+  import {reqPwdLogin, reqSengCode, reqSmsLogin} from '../../api'
   export default {
     data(){
       return {
@@ -67,7 +73,7 @@
       }
     },
     methods:{
-      sendCode(){
+      async sendCode(){
         this.computeTime = 30
         const intervalId = setInterval(()=>{
           this.computeTime--
@@ -75,8 +81,22 @@
               clearInterval(intervalId)
           }
         },1000)
+
+       const result = await reqSengCode(this.phone)
+        console.log(result);
+        if(result.code === 0){
+          return Toast('短信发送成功');
+        }else{
+          this.computeTime = 0
+          return MessageBox.alert(result.msg, '错误');
+        }
+
+      },
+      test1() {
+        this.$refs.image.src = 'http://localhost:5000/captcha?time= '+ Date.now()
       }
-    }
+    },
+
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
@@ -140,7 +160,7 @@
                 font-size 14px
                 background transparent
                 &.right_phone_number
-                  color #000
+                  color black
             .login_verification
               position relative
               margin-top 16px

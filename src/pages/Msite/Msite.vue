@@ -78,7 +78,7 @@ export default {
     categorysArr () {
       this.$nextTick(()=> {
         new Swiper( '.swiper-container', {
-          loop: true, // 循环模式选项
+          loop: true,// 循环模式选项
           pagination: {
             el: '.swiper-pagination',
           },

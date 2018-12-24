@@ -27,4 +27,10 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
   2. 手机号验证
   3. 倒计时
   4. 密码的显示/隐藏切换
-## 登录后的前后台交互效果
+## 登录的前后台交互效果
+  1. 一次性图形验证码 //finish
+  2. 一次性短信验证码  //finish
+  3. 短信登录/ 密码登录
+  4. 前台的表单验证
+  5. 退出登录
+  6. 自动登录

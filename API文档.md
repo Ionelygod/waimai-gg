@@ -370,7 +370,7 @@
 ## 5、获取一次性验证码
 
 ### 请求URL：
-	http://localhost:5000/captcha
+
 
 ### 请求方式：
 	GET
