@@ -31,7 +31,7 @@
     <div class="msite_shop_list border-1px">
       <div class="shop_header">
         <i class="iconfont icon-xuanxiang"></i>
-        <span class="shop_header_title">附近商家r</span>
+        <span class="shop_header_title">附近商家</span>
       </div>
         <ShopList/>
     </div>
@@ -52,7 +52,10 @@ export default {
 
   },
   computed:{
-    ...mapState(['address','categorys']),
+    ...mapState({
+      address: state => state.msite.address,
+      categorys: state => state.msite.categorys
+    }),
     categorysArr () {
       const {categorys} = this
       const bigArr = []

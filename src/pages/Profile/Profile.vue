@@ -7,10 +7,10 @@
           <i class="iconfont icon-person"></i>
         </div>
         <div class="user-info">
-          <p class="user-info-top">
+          <p class="user-info-top" v-show="!user.phone" >
             {{user && user.name ? user.name : '登录/注册'}}
           </p>
-          <p>
+          <p v-show="!user.name">
                 <span class="user-icon">
                   <i class="iconfont icon-shouji icon-mobile"></i>
                 </span>
