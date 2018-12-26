@@ -8,11 +8,13 @@ import actions from './actions'
 import getters from './getters'
 import msite from './modules/msite'
 import user from './modules/user'
+import shop from './modules/shop'
 
 export default new Vuex.Store({
   modules:{
     msite,
-    user
+    user,
+    shop
   },
   actions,
   getters

@@ -20,6 +20,10 @@
   export default {
     components:{
       ShopHeader
+    },
+    mounted(){
+      this.$store.dispatch('getShopinfo')
+
     }
   }
 </script>

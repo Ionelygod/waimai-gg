@@ -39,14 +39,23 @@ export default [
       {
         path: '/shop/goods',
         component: ShopGoods,
+        meta:{
+          show:true
+        },
       },
       {
         path: '/shop/rating',
         component: Shoprating,
+        meta:{
+          show:true
+        },
       },
       {
         path: '/shop/info',
         component: ShopInfo,
+        meta:{
+          show:true
+        },
       },
 
       {

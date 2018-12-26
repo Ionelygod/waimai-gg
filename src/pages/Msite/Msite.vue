@@ -60,7 +60,6 @@ export default {
       const {categorys} = this
       const bigArr = []
       let smallArr = []
-
       categorys.forEach(e => {
         if(smallArr.length === 0){
           bigArr.push(smallArr)

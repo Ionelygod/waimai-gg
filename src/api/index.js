@@ -27,4 +27,11 @@ export const getUserInFo = () => ajax(prefix + '/userinfo')
 // [10、用户登出](#10用户登出)<br/>
 export const reqlogout = () => ajax(prefix + '/logout')
 
+//获取食品分类的数据
+export const getShopGoods = () => ajax('/goods')
+//获取评论的数据
+export const getShopRating = () => ajax('/ratings')
+//获取商家的详情数据
+export const getShopInfo = () => ajax('/info')
+
 
