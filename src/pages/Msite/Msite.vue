@@ -47,9 +47,6 @@
 export default {
   mounted(){
     this.$store.dispatch('getcategory')
-    this.$store.dispatch('getcategory')
-
-
   },
   computed:{
     ...mapState({

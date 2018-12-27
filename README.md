@@ -81,3 +81,36 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
           transition
         xxx-enter / xxx-leave-to
           隐藏时的样式
+
+  ## ShopGoods组件的滑动功能
+    1). 滑动右侧列表, 左侧会同步更新当前分类
+        1). 设计一个计算属性: currentIndex代表当前分类的下标
+        2). 相关数据
+          滚动的y坐标: scrollY---> 给右侧列表绑定一个滚动的监听
+          右侧分类<li>的top数组: tops-->列表第一次显示之后统计
+        3). 计算的逻辑
+           scrollY>=top && scrollY<nextTop
+        4). 在列表显示之后确定tops
+        5). 绑定scroll/scrollEnd监听, 在回调中设置scrollY值
+    2). 点击左侧分类项, 右侧列表滑动到对应位置
+        1). 绑定点击监听
+        2). 通过rightScroll滚动到对应的位置: scroll.scrollTo(0, -tops[index])
+        3). 立即更新scrollY
+    3). 问题: 如何保证当前分类可见?
+        在currentIndex变化时, 使左侧列表滑动到对应的li
+  ## Food组件
+    1). 父子组件间调用方法:
+        子组件调用父组件的方法: 通过props将方法传递给子组件
+        父组件调用子组件的方法: 通过ref找到子组件标签对象(就是组件对象)
+  ## ShopCart组件
+    1). 将购物项列表数据定义到vuex的state中: cartFoods
+    2). 在vuex的getters中定义: totalCount, totalPrice
+    3). 解决几个功能性bug
+        a. 删除所有购物项, 购物车列表还打开着
+        b. 添加一个购物项, 购物车列表自动打开
+        c. 购物车列表不能滑动
+        d. 购物车列表中点一次添加, 会增加多项
+        e. 原本可以滑动的列表, 关闭再打开后不能再滑动了
+  ## ShopRatings组件
+
+

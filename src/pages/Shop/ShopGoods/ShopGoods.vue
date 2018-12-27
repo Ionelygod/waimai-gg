@@ -2,9 +2,9 @@
   <div>
     <div class="goods">
       <div class="menu-wrapper">
-        <ul>
+        <ul ref="leftUl">
           <!--current-->
-          <li class="menu-item" v-for="(good, index) in goods" :key="index">
+          <li class="menu-item" v-for="(good, index) in goods" :key="index" :class="{current:currentIndex === index}" @click="rightScrollTo(index)">
             <span class="text bottom-border-1px">
               <img class="icon" v-if="good.icon" :src="good.icon">
               {{good.name}}
@@ -13,11 +13,11 @@
         </ul>
       </div>
       <div class="foods-wrapper">
-        <ul>
+        <ul ref="rightUl">
           <li class="food-list-hook"  v-for="(good, index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px" v-for="(food, index) in good.foods" :key="index">
+              <li class="food-item bottom-border-1px" v-for="(food, index) in good.foods" :key="index" @click="showFood(food)">
                 <div class="icon">
                   <img width="57" height="57"
                        :src="food.icon">
@@ -41,37 +41,95 @@
           </li>
         </ul>
       </div>
+      <ShopCart />
     </div>
+    <Food ref="food" :food="food"/>
   </div>
-
 </template>
 <script>
   import {mapState} from 'vuex'
   import BScroll from 'better-scroll'
+  import Food from '../../../components/Food/Food.vue'
+  import ShopCart from '../../../components/ShopCart/ShopCart.vue'
   export default {
+    data(){
+      return {
+        scrollY: 0,
+        tops:[],
+        food:{}
+      }
+    },
     computed:{
       ...mapState({
           goods: state => state.shop.goods
-      })
+      }),
+      currentIndex(){
+        const {scrollY, tops} = this
+
+        const index = tops.findIndex((top, index) => {
+          return scrollY>=top && scrollY < tops[index + 1]
+        })
+        if(index != this.index && this.leftScroll){
+          this.index = index
+          const li = this.$refs.leftUl.children[index]
+          this.leftScroll.scrollToElement(li,300)
+        }
+
+        return index
+      }
     },
     mounted(){
       this.$store.dispatch('getShopgoods',() => {
         this.$nextTick(()=>{
           this._initscroll()
+          this._inittops()
         })
       })
-
 
     },
     methods:{
       _initscroll(){
-        new BScroll('.menu-wrapper',{
-          click:true
+        this.leftScroll = new BScroll('.menu-wrapper',{
+          click:true,
+          probeType : 1
         })
-        new BScroll('.foods-wrapper',{
-          click:true
+        this.rightScroll = new BScroll('.foods-wrapper',{
+          click:true,
+          probeType : 1
         })
+        this.rightScroll.on('scroll',({x,y}) => {
+          this.scrollY = -y
+        })
+        this.rightScroll.on('scrollEnd',({x,y}) => {
+          this.scrollY = -y
+        })
+      },
+      _inittops(){
+        const {scrollY, tops} = this
+        const lis = this.$refs.rightUl.children
+        let top = 0
+        tops.push(top)
+        Array.prototype.slice.call(lis,0).forEach(li => {
+          top += li.clientHeight
+          tops.push(top)
+        })
+      },
+
+      rightScrollTo(index){
+        const topY = -this.tops[index]
+        this.rightScroll.scrollTo(0,topY,300)
+        this.scrollY = -topY
+      },
+
+      showFood(food){
+        this.food = food
+        this.$refs.food.toggleShow()
+
       }
+    },
+    components:{
+      Food,
+      ShopCart
     }
   }
 </script>

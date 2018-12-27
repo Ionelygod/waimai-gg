@@ -14,7 +14,8 @@ import {
 const state = {
   goods:[],
   ratings:[],
-  info:{}
+  info:{},
+    cartFoods:[]
 }
 const mutations = {
   [RECEIVE_GOODS](state, {goods}){
@@ -29,6 +30,7 @@ const mutations = {
   [ADD_FOOD_COUNT](state, {food}){
     if(!food.count){
       Vue.set(food,'count',1)
+      state.cartFoods.push(food)
     }else{
       food.count ++
     }
@@ -36,6 +38,10 @@ const mutations = {
   [REDUCE_FOOD_COUNT](state, {food}){
     if(food.count > 0){
       food.count --
+
+      if(food.count === 0){
+        state.cartFoods.splice(state.cartFoods.indexOf(food),1)
+      }
     }
   }
 }
@@ -71,7 +77,12 @@ const actions = {
   }
 }
 const getters = {
-
+  toggleCount(state){
+    return state.cartFoods.reduce((perv, food) => perv + food.count,0)
+  },
+  togglePrice(state){
+    return state.cartFoods.reduce((perv, food) => perv + food.count * food.price ,0)
+  }
 }
 export default {
   state,
