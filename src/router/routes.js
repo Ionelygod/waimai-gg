@@ -2,10 +2,16 @@
  * Created by Fairy on 2018/12/21.
  */
 
-import Msite from '../pages/Msite/Msite.vue'
-import Search from '../pages/Search/Search.vue'
-import Order from '../pages/Order/Order.vue'
-import Profile from '../pages/Profile/Profile.vue'
+const Msite = () => import('../pages/Msite/Msite.vue')
+const Search = () => import('../pages/Search/Search.vue')
+const Order = () => import('../pages/Order/Order.vue')
+const Profile = () => import('../pages/Profile/Profile.vue')
+// import Msite from '../pages/Msite/Msite.vue'
+// import Search from '../pages/Search/Search.vue'
+// import Order from '../pages/Order/Order.vue'
+// import Profile from '../pages/Profile/Profile.vue'
+
+
 import Login from '../pages/Login/Login.vue'
 import Shop from '../pages/Shop/Shop.vue'
 import ShopGoods from '../pages/Shop/ShopGoods/ShopGoods.vue'

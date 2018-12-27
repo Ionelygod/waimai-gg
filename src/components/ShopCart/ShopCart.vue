@@ -61,7 +61,7 @@
         const {togglePrice} = this
         const {minPrice} = this.info
         if(togglePrice === 0){
-          return `还差￥20元起送}`
+          return `还差￥20元起送`
         }else if(togglePrice < minPrice){
           return `还差￥${minPrice - togglePrice}元起送`
         }else{

@@ -15,7 +15,7 @@ const state = {
   goods:[],
   ratings:[],
   info:{},
-    cartFoods:[]
+  cartFoods:[]
 }
 const mutations = {
   [RECEIVE_GOODS](state, {goods}){
@@ -54,18 +54,20 @@ const actions = {
       typeof cb ==='function' && cb()
     }
   },
-  async getShopratings({commit}){
+  async getShopratings({commit},cb){
     const result = await getShopRating()
     if(result.code === 0){
       const ratings = result.data
       commit(RECEIVE_RATINGS,{ratings})
+      typeof cb ==='function' && cb()
     }
   },
-  async getShopinfo({commit}){
+  async getShopinfo({commit},cb){
     const result = await getShopInfo()
     if(result.code === 0){
       const info = result.data
       commit(RECEIVE_INFO,{info})
+      typeof cb ==='function' && cb()
     }
   },
   updateFoodCount({commit},{food, isAdd}){
@@ -82,7 +84,17 @@ const getters = {
   },
   togglePrice(state){
     return state.cartFoods.reduce((perv, food) => perv + food.count * food.price ,0)
+  },
+  RatingCount (state){
+    return state.ratings.length
+  },
+  RatingPleasedCount (state){
+    return state.ratings.reduce((per,rating) => per + (rating.rateType === 0 ? 1 : 0),0)
+  },
+  dissatisfiedCount(state,getters){
+    return getters.RatingCount -  getters.RatingPleasedCount
   }
+
 }
 export default {
   state,

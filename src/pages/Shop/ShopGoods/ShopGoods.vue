@@ -124,7 +124,6 @@
       showFood(food){
         this.food = food
         this.$refs.food.toggleShow()
-
       }
     },
     components:{

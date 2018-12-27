@@ -4,7 +4,8 @@
 
 import ajax from './ajax'
 
-const prefix = '/api'
+// const prefix = '/api'
+const prefix = ''
 // ## 目录：
 // [1、根据经纬度获取位置详情](#1根据经纬度获取位置详情)<br/>
 export const reqAdderess = (longitude, latitude)  => ajax(prefix + `/position/${latitude},${longitude}`);
