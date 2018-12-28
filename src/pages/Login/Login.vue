@@ -130,7 +130,17 @@
         }
       }
     },
-
+    beforeRouteEnter (to, from, next) {
+      next(component => {
+        const userId = component.$store.state
+        console.log(userId);
+        if(userId){
+          next('/profile')
+        }else{
+          next()
+        }
+      })
+    },
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>

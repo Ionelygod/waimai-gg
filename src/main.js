@@ -27,7 +27,7 @@ Vue.component('Stars',Stars)
 Vue.component('CartControl',CartControl)
 Vue.component('Split',Split)
 Vue.component(Button.name,Button)
-
+Vue.store = store
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
